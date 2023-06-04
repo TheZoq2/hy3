@@ -1151,25 +1151,23 @@ void Hy3Layout::shiftFocus(int workspace, ShiftDirection direction) {
 	if ((target = this->shiftOrGetFocus(*node, direction, false, false))) {
         target->focus();
 
-		std::cout << "Marking focus" << std::endl;
+		auto* parent = target->parent;
 
 		// If this node is in a group
-		if (target->parent != nullptr) {
-			double split_ratio = 0.05;
-			auto& children = target->parent->data.as_group.children;
-			std::cout << "Found " << children.size() << " children" << std::endl;
+		if (parent != nullptr && parent->data.as_group.layout == Hy3GroupLayout::SplitV ) {
+			double split_ratio = 0.1;
+			auto& children = parent->data.as_group.children;
+			double ratio_mod = children.size();
+
 			for (auto&& child : children) {
 				if (child != target) {
-					child->size_ratio = split_ratio;
-					child->recalcSizePosRecursive(true);
+					child->size_ratio = split_ratio * ratio_mod;
 				}
 				else {
-					child->size_ratio = 1.0 - (split_ratio * children.size());
-					child->recalcSizePosRecursive(true);
+					child->size_ratio = (1.0 - (split_ratio * (children.size()-1))) * ratio_mod;
 				}
-				std::cout << "Ratio " << child->size_ratio << " size " << child->size.y << std::endl;
-				this->applyNodeDataToWindow(child, true);
 			}
+			parent->recalcSizePosRecursive(false);
 		}
 	}
 }

@@ -13,12 +13,12 @@ endif()
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(DEPS REQUIRED hyprland pixman-1 libdrm)
 
-add_library(hy3 SHARED
+add_library(hy3_dev SHARED
 	src/main.cpp
 	src/Hy3Layout.cpp
 	src/SelectionHook.cpp
 )
 
-target_include_directories(hy3 PRIVATE ${DEPS_INCLUDE_DIRS})
+target_include_directories(hy3_dev PRIVATE ${DEPS_INCLUDE_DIRS})
 
-install(TARGETS hy3 LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
+install(TARGETS hy3_dev LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
