@@ -1155,7 +1155,7 @@ void Hy3Layout::shiftFocus(int workspace, ShiftDirection direction) {
 
 		// If this node is in a group
 		if (parent != nullptr && parent->data.as_group.layout == Hy3GroupLayout::SplitV ) {
-			double split_ratio = 0.1;
+			double split_ratio = 0.05;
 			auto& children = parent->data.as_group.children;
 			double ratio_mod = children.size();
 
